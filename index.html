@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        nuestro primer aniversario ♡
+    </title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div id="menu" class="pantalla">
+
+        <h1>
+            feliz aniversario ♡
+        </h1>
+
+        <p>
+            para jorge angelito
+        </p>
+
+        <button onclick="empezar()">
+            empezar
+        </button>
+
+    </div>
+
+
+    <div id="pantalla2" class="pantalla">
+
+        <h1>
+            nuestra historia
+        </h1>
+
+        <canvas id="laberinto" width="600" height="400">
+        </canvas>
+
+    </div>
+
+    <div id="pantallaFinal" class="pantalla">
+
+        <h1>
+            para ti ♡
+        </h1>
+
+        <p id="carta">
+
+            Angelito mío:
+            No sabes lo mucho que te amo y lo feliz que he sido a tu lado en este mes de mi vida. Amo cada día que pasa y poder conocer más tu corazón, poder entenderte y darme cuenta de que eres la persona con quien quiero estar el resto de mi existencia. Amo la persona tan increíble que eres y sé que toda mi vida estuve esperando un amor como el tuyo, ahora que te tengo, nunca te dejaré ir. Todos los días le doy gracias a Dios de que existes. Confío plenamente en la casualidad de haberte conocido. Te amo amor, siempre y para siempre ♡
+
+        </p>
+
+    </div>
+
+    <div id="trivia" class="pantalla">
+
+    <h1>
+        trivia ♡
+    </h1>
+
+    <p id="preguntaTrivia">
+    </p>
+
+    <div id="opcionesTrivia">
+
+        <button onclick="respuesta(0)">
+        </button>
+
+        <button onclick="respuesta(1)">
+        </button>
+
+        <button onclick="respuesta(2)">
+        </button>
+
+    </div>
+
+    <button onclick="volverLaberinto()">
+        volver al laberinto
+    </button>
+
+</div>  
+
+    <div id="momentos" class="pantalla">
+
+    <h1>
+        momentos favoritos ♡
+    </h1>
+
+    <div class="momento">
+
+        <h2>
+            el acuario
+        </h2>
+
+        <p>
+            uno de mis días favoritos contigo ♡
+        </p>
+
+    </div>
+
+
+    <div class="momento">
+
+        <h2>
+            hablar acostados en el pasto
+        </h2>
+
+        <p>
+            sentí demasiada paz contigo
+        </p>
+
+    </div>
+
+
+    <div class="momento">
+
+        <h2>
+            ir al cine
+        </h2>
+
+        <p>
+            amo cada date contigo ♡
+        </p>
+
+    </div>
+
+
+    <div class="momento">
+
+        <h2>
+            23 de abril de 2026
+        </h2>
+
+        <p>
+            el día que comenzó algo hermoso
+        </p>
+
+    </div>
+
+
+    <button onclick="cerrarMomentos()">
+        volver al laberinto
+    </button>
+
+</div>  
+
+    <div id="cosas" class="pantalla">
+
+    <h1>
+        cosas que amo de ti ♡
+    </h1>
+
+    <div class="listaAmor">
+
+        <p>♡ eres amable</p>
+
+        <p>♡ eres guapísimo</p>
+
+        <p>♡ tu sonrisa</p>
+
+        <p>♡ tus ojos</p>
+
+        <p>♡ eres bondadoso</p>
+
+        <p>♡ eres fuerte</p>
+
+        <p>♡ eres empático</p>
+
+        <p>♡ tienes un corazón enorme</p>
+
+    </div>
+
+    <button onclick="cerrarCosas()">
+        volver al laberinto
+    </button>
+
+</div>
+
+<div id="memorama" class="pantalla">
+
+    <h1>
+        memorama ♡
+    </h1>
+
+    <p>
+        encuentra todas las parejas ♡
+    </p>
+
+    <div id="tableroMemorama">
+
+    </div>
+
+    <button onclick="cerrarMemorama()">
+        volver al laberinto
+    </button>
+
+</div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
