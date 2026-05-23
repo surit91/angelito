@@ -6,13 +6,11 @@ let musicaLaberinto=new Audio("laberinto.mp3");
 
 let musicaCarta=new Audio("carta.mp3");
 
-
 musicaMenu.loop=true;
 
 musicaLaberinto.loop=true;
 
 musicaCarta.loop=true;
-
 
 let jugadorX=40;
 
@@ -36,6 +34,7 @@ let seleccionadas=[];
 
 let parejasEncontradas=0;
 
+let bloqueo=false;
 
 cartas=[
 
@@ -48,7 +47,6 @@ cartas=[
 "foto4.png","foto4.png"
 
 ];
-
 
 function cambiarMusica(nueva){
 
@@ -66,22 +64,25 @@ musicaActual.play();
 
 }
 
-
 function mezclar(){
 
 cartas.sort(()=>Math.random()-0.5);
 
 }
 
-
 function crearMemorama(){
+
+seleccionadas=[];
+
+parejasEncontradas=0;
+
+bloqueo=false;
 
 mezclar();
 
 let tablero=document.getElementById("tableroMemorama");
 
 tablero.innerHTML="";
-
 
 for(let i=0;i<cartas.length;i++){
 
@@ -91,13 +92,11 @@ img.src="reverso.png";
 
 img.dataset.valor=cartas[i];
 
-
 img.onclick=function(){
 
 voltear(img);
 
 };
-
 
 tablero.appendChild(img);
 
@@ -105,23 +104,25 @@ tablero.appendChild(img);
 
 }
 
-
 function voltear(img){
+
+if(bloqueo) return;
 
 if(seleccionadas.length==2) return;
 
 if(img.classList.contains("ok")) return;
 
+if(img.classList.contains("volteada")) return;
 
 img.src=img.dataset.valor;
 
 img.classList.add("volteada");
 
-
 seleccionadas.push(img);
 
-
 if(seleccionadas.length==2){
+
+bloqueo=true;
 
 setTimeout(verificar,700);
 
@@ -129,13 +130,11 @@ setTimeout(verificar,700);
 
 }
 
-
 function verificar(){
 
 let a=seleccionadas[0];
 
 let b=seleccionadas[1];
-
 
 if(a.dataset.valor==b.dataset.valor){
 
@@ -157,9 +156,9 @@ b.classList.remove("volteada");
 
 }
 
-
 seleccionadas=[];
 
+bloqueo=false;
 
 if(parejasEncontradas==4){
 
@@ -172,7 +171,6 @@ volverLaberintoDesdeMemorama();
 }
 
 }
-
 
 let preguntas=[
 
@@ -218,7 +216,6 @@ correcta:2
 
 ];
 
-
 function empezar(){
 
 alert("bienvenido amor ♡");
@@ -231,33 +228,27 @@ cambiarMusica(musicaLaberinto);
 
 }
 
-
 const canvas=document.getElementById("laberinto");
 
 const ctx=canvas.getContext("2d");
-
 
 const jugador=new Image();
 
 jugador.src="avatar.png";
 
-
 const imgcorazon=new Image();
 
 imgcorazon.src="corazon8bits.png";
 
-
 const estrella=new Image();
 
 estrella.src="estrella.png";
-
 
 imgcorazon.onload=function(){
 
 dibujar();
 
 }
-
 
 let paredes=[
 
@@ -295,7 +286,6 @@ let paredes=[
 
 ];
 
-
 let corazones=[
 
 {x:40,y:50},
@@ -310,7 +300,6 @@ let corazones=[
 
 ];
 
-
 let estrellas=[
 
 {x:120,y:40,tipo:1,completada:false},
@@ -323,17 +312,13 @@ let estrellas=[
 
 ];
 
-
 function dibujar(){
 
 ctx.clearRect(0,0,600,400);
 
-
 for(let pared of paredes){
 
-
 if(pared.x==560 && pared.w==20){
-
 
 if(animandoPuerta){
 
@@ -341,11 +326,17 @@ alphaPuerta-=0.02;
 
 if(alphaPuerta<0) alphaPuerta=0;
 
-
 ctx.fillStyle=`rgba(255,105,180,${alphaPuerta})`;
 
 ctx.fillRect(pared.x,pared.y,pared.w,pared.h);
 
+}else{
+
+ctx.fillStyle="pink";
+
+ctx.fillRect(pared.x,pared.y,pared.w,pared.h);
+
+}
 
 }else{
 
@@ -355,17 +346,7 @@ ctx.fillRect(pared.x,pared.y,pared.w,pared.h);
 
 }
 
-
-}else{
-
-ctx.fillStyle="pink";
-
-ctx.fillRect(pared.x,pared.y,pared.w,pared.h);
-
 }
-
-}
-
 
 if(animandoPuerta){
 
@@ -379,13 +360,11 @@ ctx.fill();
 
 }
 
-
 for(let corazon of corazones){
 
 ctx.drawImage(imgcorazon,corazon.x,corazon.y,30,30);
 
 }
-
 
 for(let estrellaObj of estrellas){
 
@@ -397,9 +376,7 @@ ctx.drawImage(estrella,estrellaObj.x,estrellaObj.y,35,35);
 
 }
 
-
 ctx.drawImage(jugador,jugadorX,jugadorY,40,40);
-
 
 ctx.fillStyle="white";
 
@@ -409,14 +386,11 @@ ctx.fillText("♡ "+puntos,20,30);
 
 }
 
-
 function colision(x,y){
 
 for(let pared of paredes){
 
-
 if(pared.x==560){
-
 
 if(!salidaAbierta){
 
@@ -438,11 +412,9 @@ return true;
 
 }
 
-
 continue;
 
 }
-
 
 if(
 
@@ -462,18 +434,15 @@ return true;
 
 }
 
-
 return false;
 
 }
-
 
 function recogerCorazones(){
 
 for(let i=0;i<corazones.length;i++){
 
 let corazon=corazones[i];
-
 
 if(
 
@@ -497,14 +466,11 @@ puntos++;
 
 }
 
-
 function tocarEstrella(){
 
 for(let estrellaObj of estrellas){
 
-
 if(estrellaObj.completada) continue;
-
 
 if(
 
@@ -526,13 +492,11 @@ abrirPrueba(estrellaObj.tipo);
 
 }
 
-
 function abrirPrueba(tipo){
 
 document.getElementById("pantalla2").style.display="none";
 
 estrellaActual=tipo;
-
 
 if(tipo==1){
 
@@ -542,20 +506,17 @@ cargarPregunta();
 
 }
 
-
 if(tipo==2){
 
 document.getElementById("momentos").style.display="flex";
 
 }
 
-
 if(tipo==3){
 
 document.getElementById("cosas").style.display="flex";
 
 }
-
 
 if(tipo==4){
 
@@ -567,16 +528,13 @@ crearMemorama();
 
 }
 
-
 function cargarPregunta(){
 
 let actual=preguntas[preguntaActual];
 
 document.getElementById("preguntaTrivia").innerText=actual.pregunta;
 
-
 let botones=document.querySelectorAll("#opcionesTrivia button");
-
 
 for(let i=0;i<botones.length;i++){
 
@@ -596,18 +554,15 @@ botones[i].style.display="none";
 
 }
 
-
 function respuesta(opcion){
 
 let actual=preguntas[preguntaActual];
-
 
 if(opcion==actual.correcta){
 
 alert("correcto ♡");
 
 preguntaActual++;
-
 
 if(preguntaActual<preguntas.length){
 
@@ -623,7 +578,6 @@ volverLaberinto();
 
 }
 
-
 }else{
 
 alert("Incorrecto :( aunque honestamente yo tampoco recordaba bien JAJA");
@@ -632,7 +586,6 @@ alert("Incorrecto :( aunque honestamente yo tampoco recordaba bien JAJA");
 
 }
 
-
 function volverLaberinto(){
 
 document.getElementById("trivia").style.display="none";
@@ -640,7 +593,6 @@ document.getElementById("trivia").style.display="none";
 document.getElementById("pantalla2").style.display="flex";
 
 }
-
 
 function cerrarMomentos(){
 
@@ -652,7 +604,6 @@ document.getElementById("pantalla2").style.display="flex";
 
 }
 
-
 function cerrarCosas(){
 
 estrellas[2].completada=true;
@@ -663,7 +614,6 @@ document.getElementById("pantalla2").style.display="flex";
 
 }
 
-
 function volverLaberintoDesdeMemorama(){
 
 document.getElementById("memorama").style.display="none";
@@ -672,9 +622,7 @@ document.getElementById("pantalla2").style.display="flex";
 
 }
 
-
 document.addEventListener("keydown",mover);
-
 
 function mover(evento){
 
@@ -684,7 +632,6 @@ let nuevaX=jugadorX;
 
 let nuevaY=jugadorY;
 
-
 if(tecla=="w"||tecla=="arrowup") nuevaY-=5;
 
 if(tecla=="s"||tecla=="arrowdown") nuevaY+=5;
@@ -693,7 +640,6 @@ if(tecla=="a"||tecla=="arrowleft") nuevaX-=5;
 
 if(tecla=="d"||tecla=="arrowright") nuevaX+=5;
 
-
 if(!colision(nuevaX,nuevaY)){
 
 jugadorX=nuevaX;
@@ -701,7 +647,6 @@ jugadorX=nuevaX;
 jugadorY=nuevaY;
 
 }
-
 
 recogerCorazones();
 
@@ -713,9 +658,7 @@ ganar();
 
 }
 
-
 function ganar(){
-
 
 if(puntos==5 && !salidaAbierta){
 
@@ -724,7 +667,6 @@ salidaAbierta=true;
 animandoPuerta=true;
 
 }
-
 
 if(jugadorX>560 && salidaAbierta){
 
@@ -738,13 +680,11 @@ cambiarMusica(musicaCarta);
 
 }
 
-
 jugador.onload=function(){
 
 dibujar();
 
 }
-
 
 window.onload=function(){
 
